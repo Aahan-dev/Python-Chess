@@ -37,4 +37,50 @@ class ChessBoard: # class for the chess board
     def move_piece(self, start, end): # moves the piece depending on the user input
         
         start_row, start_col = start # unpacking the start and end coordinates
-        
+        end_row, end_col = end # unpacking the start and end coordinates
+        piece = self.board[start_row][start_col] # getting the piece
+        if piece and self.is_valid_move(start, end): # checking if the move is valid
+            self.board[end_row][end_col] = piece # moving the piece
+            self.board[start_row][start_col] = None # removing the piece from the start position
+            return True
+        return False
+
+
+    def is_valid_move(self, start, end): # checks if the move is valid
+       
+        start_row, start_col = start
+        end_row, end_col = end
+        piece = self.board[start_row][start_col]
+        if not piece:
+            return False
+        return True  # Simplified: further rules should be implemented
+
+
+def main(): # main function
+    chess_board = ChessBoard()
+    turn = 'white'
+
+
+    while True: # game loop
+        chess_board.display()
+        print(f"{turn.capitalize()}'s turn")
+
+
+        start = input("Enter the start position (e.g., 'e2'): ")
+        end = input("Enter the end position (e.g., 'e4'): ")
+
+
+        start_row = 8 - int(start[1]) # convert to 0-7 index
+        start_col = ord(start[0]) - ord('a') # convert to 0-7 index
+        end_row = 8 - int(end[1]) # convert to 0-7 index
+        end_col = ord(end[0]) - ord('a') # convert to 0-7 index
+
+
+        if chess_board.move_piece((start_row, start_col), (end_row, end_col)): # move the piece
+            turn = 'black' if turn == 'white' else 'white' # switch turns
+        else:
+            print("Invalid move. Try again.")
+
+
+if __name__ == "__main__":
+    main() # calls the main functioOn
